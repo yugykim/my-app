@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { HelmetProvider } from "react-helmet-async";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -50,20 +52,24 @@ const Globalstyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    font-family: 'Source Sans Pro', sans-serif; 
-    background-color: ${props => props.theme.bgColor};
-    color: ${props => props.theme.textColor};
+    font-weight: 300;
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color:${(props) => props.theme.bgColor};
+    color:${(props) => props.theme.textColor};
+    line-height: 1.2;
   }
   a {
     text-decoration: none;
+    color: inherit;
   }
   `;
 
 function App() {
   return (
     <>
-      <Globalstyle />
+      <Globalstyle /> 
       <Router />
+      <ReactQueryDevtools initialIsOpen={true}/>
     </>
   );
 }
