@@ -1,5 +1,3 @@
-import { Helmet } from "react-helmet";
-import { HelmetProvider } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -70,11 +68,6 @@ function Coins() {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
   return (
     <Container>
-      <HelmetProvider>
-        <Helmet>
-          <Title>Coin</Title>
-        </Helmet>
-      </HelmetProvider>
       <Header>
         <Title>Coin</Title>
       </Header>
@@ -84,10 +77,7 @@ function Coins() {
         <CoinsList>
           {data?.slice(0,100).map(coin => <Coin key={coin.id}>
             <Link 
-              to={{
-               pathname: `/${coin.id}`,
-               state: { name: coin.name },
-              }}
+              to={coin.id}
               >
               <Img 
                 src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} 

@@ -1,15 +1,11 @@
 import { useQuery } from "react-query";
-import { Helmet } from "react-helmet";
-import { Route, Switch } from "react-router"
-import { Link, useLocation, useParams, useRouteMatch } from "react-router-dom";
+
+import { Route } from "react-router"
+import { Link, NavLink, Routes, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoin, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
-
-interface RouteParams {
-  coinId: string;
-}
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -41,7 +37,7 @@ const Overview = styled.div`
    padding: 10px 20px;
    border-radius: 10px;
  `;
- const OverviewItem = styled.div`
+const OverviewItem = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -52,18 +48,18 @@ const Overview = styled.div`
      margin-bottom: 5px;
    }
  `;
- const Description = styled.p`
+const Description = styled.p`
    margin: 20px 0px;
- `; 
- 
- const Tabs = styled.div`
+ `;
+
+const Tabs = styled.div`
  display: grid;
  grid-template-columns: repeat(2, 1fr);
  margin: 25px 0px;
  gap: 10px;
 `;
 
-const Tab = styled.span<{isActive: boolean}>`
+const Tab = styled.span<{ isActive: boolean }>`
  text-align: center;
  text-transform: uppercase;
  font-size: 12px;
@@ -71,13 +67,8 @@ const Tab = styled.span<{isActive: boolean}>`
  background-color: rgba(0, 0, 0, 0.5);
  padding: 7px 0px;
  border-radius: 10px;
- color: ${(props) => props.isActive? props.theme.accentColor : props.theme.textColor};
+ color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
 `;
-
-
-interface RouteState {
-  name: string;
-}
 
 interface InfoData {
   id: string;
@@ -117,34 +108,32 @@ interface PriceData {
   quotes: any;
 }
 function Coin() {
-  const { coinId } = useParams<RouteParams>();
-   const { state } = useLocation<RouteState>();
-   const priceMatch = useRouteMatch("/:coinId/price");
-   const chartMatch = useRouteMatch("/:coinId/chart");
-   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
-     ["info", coinId],
-     () => fetchCoin(coinId)
-   );
-   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
-     ["tickers", coinId],
-     () => fetchCoinTickers(coinId),
-     {
-       refetchInterval: 10000,
-     }
-   );
+  const { coinId } = useParams();
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoin(`${coinId}`)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(`${coinId}`),
+    {
+      refetchInterval: 10000,
+    }
+  );
 
-   const loading = infoLoading || tickersLoading;
+  const loading = infoLoading || tickersLoading;
+
+  let activeStyle = {
+    textDecoration: "underline",
+  };
+
+  let activeClassName = "underline";
 
   return (
     <Container>
-      <Helmet>
-        <title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </title>
-      </Helmet>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          {infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -176,24 +165,7 @@ function Coin() {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
-        
-          <Tabs>
-            <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
-            </Tab>
-            <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
-            </Tab>
-          </Tabs>
-
-          <Switch>
-            <Route path={`/${coinId}/price`}>
-              <Price />
-            </Route>
-            <Route path={`/${coinId}/chart`}>
-              <Chart coinId={coinId} />
-            </Route>
-          </Switch>
+          <Chart coinId={`${coinId}`}/>
         </>
       )}
     </Container>
