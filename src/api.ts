@@ -5,7 +5,6 @@ export function fetchCoins() {
 }
 
 export function fetchCoin(coinId: string) {
-  console.log(coinId);
   return fetch(`${BASE_URL}/coins/${coinId}`).then(res => res.json());
 }
 
