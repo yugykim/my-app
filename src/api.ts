@@ -4,8 +4,8 @@ export function fetchCoins() {
   return fetch(`${BASE_URL}/coins`).then(response => response.json());
 }
 
-/*
 export function fetchCoin(coinId: string) {
+  console.log(coinId);
   return fetch(`${BASE_URL}/coins/${coinId}`).then(res => res.json());
 }
 
@@ -22,7 +22,7 @@ export function fetchCoinHistory(coinId: string) {
   return fetch(
     `${BASE_URL}/coins/${coinId}/ohlcv/historical?start=${startDate}&end=${endDate}`
   ).then((response) => response.json());
-} */
+}
 
 
 
