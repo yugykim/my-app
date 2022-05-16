@@ -38,20 +38,6 @@ function Chart({ coinId }:ChartProps) {
         },
       ]}
       options = {{
-        series: [{
-          name: "line",
-          type: "line",
-          data: data?.map(price => Math.floor(price.close)) as number[]
-        }, {
-          name: "candle",
-          type: "candlestick",
-          data: [
-            {
-              x: 1,
-              y: data?.map(price => [price.high, price.low, 1, 1])
-            }]
-        }
-      ],
         theme: {
           mode: 'dark'
         },
@@ -71,7 +57,6 @@ function Chart({ coinId }:ChartProps) {
           width: 2,
         },
         xaxis: {
-          type: "datetime",
           categories: data?.map(price => price.time_close.slice(5, 10)), 
         },
         fill: {

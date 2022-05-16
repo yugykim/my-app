@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -72,18 +73,18 @@ function Coins() {
         <Title>Coin</Title>
       </Header>
       {isLoading ? (
-      <Loader>Loading...</Loader>
-      ) : ( 
+        <Loader>Loading...</Loader>
+      ) : (
         <CoinsList>
-          {data?.slice(0,100).map(coin => <Coin key={coin.id}>
-            <Link 
+          {data?.slice(0, 100).map(coin => <Coin key={coin.id}>
+            <Link
               to={coin.id}
-              >
-              <Img 
-                src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} 
+            >
+              <Img
+                src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
               />
               {coin.name} &rarr;
-              </Link>
+            </Link>
           </Coin>)}
         </CoinsList>
       )}

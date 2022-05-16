@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -65,11 +67,16 @@ const Globalstyle = createGlobalStyle`
 
 function App() {
   return (
-    <>
-      <Globalstyle /> 
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true}/>
-    </>
+    <HelmetProvider>
+      <>
+        <Helmet>
+          <title>Coin Chart - cryptocurrency price, charts made by Yugi</title>
+        </Helmet>
+        <Globalstyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </>
+    </HelmetProvider>
   );
 }
 

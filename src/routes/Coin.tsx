@@ -1,11 +1,9 @@
 import { useQuery } from "react-query";
-
-import { Route } from "react-router"
-import { Link, NavLink, Routes, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoin, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
-import Price from "./Price";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -165,7 +163,7 @@ function Coin() {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
-          <Chart coinId={`${coinId}`}/>
+          <Chart coinId={`${coinId}`} />
         </>
       )}
     </Container>
