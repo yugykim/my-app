@@ -3,8 +3,8 @@ import { Helmet } from "react-helmet";
 import { Route, Switch } from "react-router"
 import { Link, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoin, fetchCoinTickers } from "../api";
-import Chart from "./Chart";
+//import { fetchCoin, fetchCoinTickers } from "../api";
+//import Chart from "./Chart";
 import Price from "./Price";
 
 interface RouteParams {
@@ -116,6 +116,7 @@ interface PriceData {
   last_updated: string;
   quotes: any;
 }
+/*
 function Coin() {
   const { coinId } = useParams<RouteParams>();
    const { state } = useLocation<RouteState>();
@@ -162,7 +163,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -201,3 +202,4 @@ function Coin() {
 }
 
 export default Coin;
+*/
