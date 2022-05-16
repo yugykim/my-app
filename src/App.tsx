@@ -1,7 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { HelmetProvider } from "react-helmet-async";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
