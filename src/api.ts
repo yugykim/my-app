@@ -5,11 +5,11 @@ export function fetchCoins() {
 }
 
 export function fetchCoin(coinId: string) {
-  return fetch(`${BASE_URL}/coins/`).then(res => res.json());
+  return fetch(`${BASE_URL}/coins/${coinId}`).then(res => res.json());
 }
 
 export function fetchCoinTickers(coinId: string) {
-  return fetch(`${BASE_URL}/tickers/`).then(res => res.json());
+  return fetch(`${BASE_URL}/tickers/${coinId}`).then(res => res.json());
 }
 
 export function fetchCoinHistory(coinId: string) {
