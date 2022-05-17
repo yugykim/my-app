@@ -105,7 +105,12 @@ interface PriceData {
   last_updated: string;
   quotes: any;
 }
-function Coin() {
+
+interface ICoinsProps {
+  isDark: boolean;
+}
+
+function Coin({isDark}:ICoinsProps) {
   const { coinId } = useParams();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -163,7 +168,7 @@ function Coin() {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
-          <Chart coinId={`${coinId}`} />
+          <Chart isDark={isDark} coinId={`${coinId}`} />
         </>
       )}
     </Container>

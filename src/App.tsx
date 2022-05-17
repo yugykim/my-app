@@ -1,8 +1,10 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -66,15 +68,19 @@ const Globalstyle = createGlobalStyle`
   `;
 
 function App() {
-  return (
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark(current => !current);
+  return ( 
     <HelmetProvider>
       <>
         <Helmet>
           <title>Coin Chart - cryptocurrency price, charts made by Yugi</title>
         </Helmet>
-        <Globalstyle />
-        <Router />
-        <ReactQueryDevtools initialIsOpen={true} />
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          <Globalstyle />
+          <Router isDark= {isDark} toggleDark={toggleDark} />
+          <ReactQueryDevtools initialIsOpen={true} />
+        </ThemeProvider>
       </>
     </HelmetProvider>
   );
