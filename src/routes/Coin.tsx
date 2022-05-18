@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoin, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -11,7 +10,7 @@ const Container = styled.div`
   margin: 0 auto;    
 `;
 
-const Header = styled.header`
+const TableTitle = styled.header`
   height: 10vh;
   display: flex;
   justify-content: center;
@@ -106,11 +105,9 @@ interface PriceData {
   quotes: any;
 }
 
-interface ICoinsProps {
-  isDark: boolean;
-}
+interface ICoinsProps {}
 
-function Coin({isDark}:ICoinsProps) {
+function Coin({}:ICoinsProps) {
   const { coinId } = useParams();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -120,25 +117,19 @@ function Coin({isDark}:ICoinsProps) {
     ["tickers", coinId],
     () => fetchCoinTickers(`${coinId}`),
     {
-      refetchInterval: 10000,
+      refetchInterval: 10000, 
     }
   );
 
   const loading = infoLoading || tickersLoading;
 
-  let activeStyle = {
-    textDecoration: "underline",
-  };
-
-  let activeClassName = "underline";
-
   return (
     <Container>
-      <Header>
+      <TableTitle>
         <Title>
           {infoData?.name}
         </Title>
-      </Header>
+      </TableTitle>
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -168,7 +159,7 @@ function Coin({isDark}:ICoinsProps) {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
-          <Chart isDark={isDark} coinId={`${coinId}`} />
+          <Chart coinId={`${coinId}`} />
         </>
       )}
     </Container>

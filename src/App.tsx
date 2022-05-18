@@ -4,7 +4,9 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
+import Header from "./Header";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -68,8 +70,7 @@ const Globalstyle = createGlobalStyle`
   `;
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark(current => !current);
+  const isDark = useRecoilValue(isDarkAtom);
   return ( 
     <HelmetProvider>
       <>
@@ -77,13 +78,16 @@ function App() {
           <title>Coin Chart - cryptocurrency price, charts made by Yugi</title>
         </Helmet>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          <Header />
           <Globalstyle />
-          <Router isDark= {isDark} toggleDark={toggleDark} />
+          <Router />
           <ReactQueryDevtools initialIsOpen={true} />
         </ThemeProvider>
       </>
     </HelmetProvider>
   );
 }
+
+
 
 export default App;
