@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoins } from "../api";
+import { fetchCoin } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -78,7 +78,7 @@ interface CoinInterface {
 interface ICoinsProps { }
 
 function Coins() {
-  const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
+  const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoin);
   return (
     <Container>
       <Header>

@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoin, fetchCoinTickers } from "../api";
+import { fetchCoinHistory, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 
 const Container = styled.div`
@@ -111,7 +111,7 @@ function Coin({}:ICoinsProps) {
   const { coinId } = useParams();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
-    () => fetchCoin(`${coinId}`)
+    () => fetchCoinHistory(`${coinId}`)
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],

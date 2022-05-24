@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { createGlobalStyle } from "styled-components";
-import ToDoList from "./ToDoList";
-=======
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -11,7 +7,6 @@ import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
 import Header from "./Header";
->>>>>>> eb64b77074af1106f81b26b74833ea9aab098c45
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -75,13 +70,6 @@ const Globalstyle = createGlobalStyle`
   `;
 
 function App() {
-<<<<<<< HEAD
-  return (
-    <>
-      <Globalstyle />
-      <ToDoList />
-    </>
-=======
   const isDark = useRecoilValue(isDarkAtom);
   return ( 
     <HelmetProvider>
@@ -97,7 +85,6 @@ function App() {
         </ThemeProvider>
       </>
     </HelmetProvider>
->>>>>>> eb64b77074af1106f81b26b74833ea9aab098c45
   );
 }
 
