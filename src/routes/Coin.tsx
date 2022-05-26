@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinHistory, fetchCoinTickers } from "../api";
+import { fetchCoinHistory, fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 
 const Container = styled.div`
@@ -19,7 +19,7 @@ const TableTitle = styled.header`
 
 const Title = styled.h1`
   font-size: 48px;
-  color: ${props => props.theme.accentColor};
+  color: ${props => props.theme.textColor};
 `;
 
 const Loader = styled.span`
@@ -30,7 +30,7 @@ const Loader = styled.span`
 const Overview = styled.div`
    display: flex;
    justify-content: space-between;
-   background-color: rgba(0, 0, 0, 0.5);
+   background-color: ${props => props.theme.subBgColor};
    padding: 10px 20px;
    border-radius: 10px;
  `;
@@ -111,7 +111,7 @@ function Coin({}:ICoinsProps) {
   const { coinId } = useParams();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
-    () => fetchCoinHistory(`${coinId}`)
+    () => fetchCoinInfo(`${coinId}`)
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
@@ -120,7 +120,8 @@ function Coin({}:ICoinsProps) {
       refetchInterval: 10000, 
     }
   );
-
+  
+  console.log(infoData);
   const loading = infoLoading || tickersLoading;
 
   return (

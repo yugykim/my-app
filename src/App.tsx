@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
-import Header from "./Header";
+import styled from "styled-components";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -57,11 +57,9 @@ const Globalstyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    font-weight: 300;
     font-family: 'Source Sans Pro', sans-serif;
     background-color:${(props) => props.theme.bgColor};
     color:${(props) => props.theme.textColor};
-    line-height: 1.2;
   }
   a {
     text-decoration: none;
@@ -69,17 +67,58 @@ const Globalstyle = createGlobalStyle`
   }
   `;
 
+  const Header = styled.header`
+  display: flex;
+  height: 10vh;
+  width: 100vh;
+  flex-direction: column;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #f5f6fa;
+  height: 10vh;
+  width: 100vw;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 13px;
+  background-color: ${props => props.theme.subBgColor};
+  margin-left: 10px;
+`;
+
+const SmallLogo = styled.div`
+  padding: 15px;
+  background-color: #2f3640;
+`;
+
+const H1 = styled.h1`
+  font-size: 30px;
+  color: #2f3640;
+  margin-left: 50px;
+`;
+
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
-  return ( 
+  return (
     <HelmetProvider>
       <>
         <Helmet>
           <title>Coin Chart - cryptocurrency price, charts made by Yugi</title>
         </Helmet>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-          <Header />
           <Globalstyle />
+          <Header>
+            <Title>
+              <Logo>
+                <SmallLogo></SmallLogo>
+              </Logo>
+              <H1>Cryptocurrencies</H1>
+            </Title>
+          </Header>
           <Router />
           <ReactQueryDevtools initialIsOpen={true} />
         </ThemeProvider>

@@ -1,21 +1,10 @@
-import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoin } from "../api";
+import CoinInfoInner from "../components/CoinInfoInner";
 
-const Container = styled.div`
-  padding: 0px 20px;
-  width: 100vw;
-  margin: 0 auto;  
-  background-color: white;  
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-`;
+const Container = styled.div``;
 
 const CoinsList = styled.div``;
 
@@ -28,7 +17,6 @@ const Coin = styled.tr`
     padding: 20px;
     transition: color 0.2s ease-in;
     display: block;
-    border-bottom: 0.5px solid silver;
   }
   &:hover {
     a {
@@ -38,6 +26,12 @@ const Coin = styled.tr`
 `;
 
 const CoinInfo = styled.td`
+  padding: auto;
+  text-align: left;
+  border-bottom: 0.5px solid silver;
+  &:hover {
+    background-color: #f5f6fa;
+  }
 `;
 
 const TableCol = styled.th` 
@@ -47,22 +41,30 @@ const TableCol = styled.th`
   border-bottom: 0.5px solid silver;
 `;
 
-
-const Title = styled.h1`
-  font-size: 20px;
-  color: ${props => props.theme.accentColor};
-`;
-
 const Loader = styled.span`
   text-align: center;
   display: block;
 `;
 
 const Img = styled.img`
-  width: 35px;
+  width: 25px;
   height: 3 5px;
   margin-right: 10px;
 `;
+
+const TitleBackground = styled.div`
+  display: flex;
+  background-color: ${props => props.theme.subBgColor};
+  flex-direction: row;
+  width: 100vw;
+  height: 35vh;
+  font-size: 25px;
+  font-weight: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
 
 //making response very fast
 interface CoinInterface {
@@ -75,15 +77,27 @@ interface CoinInterface {
   type: string,
 }
 
+interface IHistorical {
+  time_open: string;
+  time_close: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  market_cap: number;
+}
+
 interface ICoinsProps { }
 
 function Coins() {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoin);
+
   return (
     <Container>
-      <Header>
-        <Title>Cryptocurrencies</Title>
-      </Header>
+      <TitleBackground>
+        <h2>Simple price, Simple chart for Cryptocurrencies</h2>
+      </TitleBackground>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -91,24 +105,40 @@ function Coins() {
           <thead>
             <tr>
               <TableCol>Name</TableCol>
-              <TableCol>Price</TableCol>
-              <TableCol>Change</TableCol>
-              <TableCol>%Change</TableCol>
+              <TableCol>Last Price</TableCol>
+              <TableCol>24h</TableCol>
+              <TableCol>7d</TableCol>
+              <TableCol>Volume</TableCol>
+              <TableCol>MartketCap</TableCol>
             </tr>
           </thead>
           <tbody>
-            <td>
-              {data?.slice(0, 100).map(coin =>
-                <Coin key={coin.id}>
-                  <CoinInfo>
-                    <Link to={coin.id}>
-                      <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
-                      {coin.name} &rarr;
-                    </Link>
-                  </CoinInfo>
-                </Coin>
-              )}
-            </td>
+            {data?.slice(0, 10).map(coin =>
+              <Coin key={coin.id}>
+                <CoinInfo>
+                  <Link to={coin.id}>
+                    <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                    {coin.name}
+                  </Link>
+                </CoinInfo>
+                <CoinInfo>
+                  <CoinInfoInner coinId={`${coin.id}`} reqName="price" />
+                </CoinInfo>
+                <CoinInfo>
+                  <CoinInfoInner coinId={`${coin.id}`} reqName="oneDay" />
+                </CoinInfo>
+                <CoinInfo>
+                  <CoinInfoInner coinId={`${coin.id}`} reqName="sevenDays" />
+                </CoinInfo>
+                <CoinInfo>
+                  <CoinInfoInner coinId={`${coin.id}`} reqName="volume" />
+                </CoinInfo>
+                <CoinInfo>
+                  <CoinInfoInner coinId={`${coin.id}`} reqName="market_cap" />
+                </CoinInfo>
+
+              </Coin>
+            )}
           </tbody>
         </CoinsList>
       )}
