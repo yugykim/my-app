@@ -1,10 +1,14 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinHistory, fetchCoinInfo, fetchCoinTickers } from "../api";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 
 const Container = styled.div`
+  
+`;
+
+const InnerContaine = styled.div`
   padding: 0px 20px;
   max-width: 480px;
   margin: 0 auto;    
@@ -49,22 +53,32 @@ const Description = styled.p`
    margin: 20px 0px;
  `;
 
-const Tabs = styled.div`
- display: grid;
- grid-template-columns: repeat(2, 1fr);
- margin: 25px 0px;
- gap: 10px;
+const NavTitle = styled.div`
+ display: flex;
+ align-items: center;
+ background-color: #f5f6fa;
+ height: 10vh;
+ width: 100vw;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
- text-align: center;
- text-transform: uppercase;
- font-size: 12px;
- font-weight: 400;
- background-color: rgba(0, 0, 0, 0.5);
- padding: 7px 0px;
- border-radius: 10px;
- color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
+const Logo = styled.div`
+ display: flex;
+ align-items: center;
+ padding: 13px;
+ background-color: ${props => props.theme.subBgColor};
+ margin-left: 10px;
+ cursor: pointer;
+`;
+
+const SmallLogo = styled.div`
+ padding: 15px;
+ background-color: #2f3640;
+`;
+
+const H1 = styled.h1`
+ font-size: 30px;
+ color: #2f3640;
+ margin-left: 50px;
 `;
 
 interface InfoData {
@@ -105,9 +119,9 @@ interface PriceData {
   quotes: any;
 }
 
-interface ICoinsProps {}
+interface ICoinsProps { }
 
-function Coin({}:ICoinsProps) {
+function Coin({ }: ICoinsProps) {
   const { coinId } = useParams();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -117,15 +131,24 @@ function Coin({}:ICoinsProps) {
     ["tickers", coinId],
     () => fetchCoinTickers(`${coinId}`),
     {
-      refetchInterval: 10000, 
+      refetchInterval: 10000,
     }
   );
-  
+
   console.log(infoData);
   const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
+      <NavTitle>
+        <Link to="/">
+          <Logo>
+            <SmallLogo></SmallLogo>
+          </Logo>
+        </Link>
+        <H1>Cryptocurrencies</H1>
+      </NavTitle>
+      <InnerContaine>
       <TableTitle>
         <Title>
           {infoData?.name}
@@ -163,6 +186,7 @@ function Coin({}:ICoinsProps) {
           <Chart coinId={`${coinId}`} />
         </>
       )}
+      </InnerContaine>
     </Container>
   );
 }

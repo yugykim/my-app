@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Globalstyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,200&display=swap');
@@ -67,40 +68,6 @@ const Globalstyle = createGlobalStyle`
   }
   `;
 
-  const Header = styled.header`
-  display: flex;
-  height: 10vh;
-  width: 100vh;
-  flex-direction: column;
-`;
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: #f5f6fa;
-  height: 10vh;
-  width: 100vw;
-`;
-
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 13px;
-  background-color: ${props => props.theme.subBgColor};
-  margin-left: 10px;
-`;
-
-const SmallLogo = styled.div`
-  padding: 15px;
-  background-color: #2f3640;
-`;
-
-const H1 = styled.h1`
-  font-size: 30px;
-  color: #2f3640;
-  margin-left: 50px;
-`;
-
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
   return (
@@ -111,14 +78,6 @@ function App() {
         </Helmet>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           <Globalstyle />
-          <Header>
-            <Title>
-              <Logo>
-                <SmallLogo></SmallLogo>
-              </Logo>
-              <H1>Cryptocurrencies</H1>
-            </Title>
-          </Header>
           <Router />
           <ReactQueryDevtools initialIsOpen={true} />
         </ThemeProvider>

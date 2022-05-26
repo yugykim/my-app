@@ -14,7 +14,7 @@ interface ChangeProp {
 }
 export const Change: React.FC<ChangeProp> = ({ dataInfo, plusOrNot }) => {
   return (
-    (plusOrNot ? (<MinusData>{ dataInfo }</MinusData>) : (<PlusData>{ dataInfo }</PlusData>))
+    (plusOrNot ? (<PlusData>{ dataInfo }</PlusData>) : (<MinusData>{ dataInfo }</MinusData>))
   );
 }
 

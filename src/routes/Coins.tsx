@@ -65,6 +65,41 @@ const TitleBackground = styled.div`
   align-items: center;
 `;
 
+const Header = styled.header`
+  display: flex;
+  height: 40vh;
+  width: 100vh;
+  flex-direction: column;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #f5f6fa;
+  height: 10vh;
+  width: 100vw;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 13px;
+  background-color: ${props => props.theme.subBgColor};
+  margin-left: 10px;
+  cursor: pointer;
+`;
+
+const SmallLogo = styled.div`
+  padding: 15px;
+  background-color: #2f3640;
+`;
+
+const H1 = styled.h1`
+  font-size: 30px;
+  color: #2f3640;
+  margin-left: 50px;
+`;
+
 
 //making response very fast
 interface CoinInterface {
@@ -77,27 +112,23 @@ interface CoinInterface {
   type: string,
 }
 
-interface IHistorical {
-  time_open: string;
-  time_close: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-  market_cap: number;
-}
-
-interface ICoinsProps { }
 
 function Coins() {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoin);
 
   return (
     <Container>
-      <TitleBackground>
-        <h2>Simple price, Simple chart for Cryptocurrencies</h2>
-      </TitleBackground>
+      <Header>
+        <Title>
+          <Logo>
+            <SmallLogo></SmallLogo>
+          </Logo>
+          <H1>Cryptocurrencies</H1>
+        </Title>
+        <TitleBackground>
+          <h2>Simple price, Simple chart for Cryptocurrencies</h2>
+        </TitleBackground>
+      </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
